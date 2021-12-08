@@ -1,3 +1,9 @@
+// mod print;
+// mod vars;
+mod types;
+
 fn main() {
-    println!("Hello, world!");
+    types::run();
 }
+
+
