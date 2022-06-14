@@ -28,4 +28,13 @@ pub fn run() {
     println!("{:?}", (is_active, is_greater, a1, face));
 
 
+    let phrase = String::from("Test string");
+    let letter = phrase.chars().nth(5);
+
+    let value = match letter {
+        Some(character) => character.to_string(),
+        None => String::from("No Value")
+    };
+    println!("Value: {}", value);
+
 }
