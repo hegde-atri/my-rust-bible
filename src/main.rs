@@ -8,8 +8,11 @@
 // mod structs_traits;
 // mod concurrency;
 // mod tutorial;
-mod sh;
+// mod sh;
+// mod data_structures;
+mod standard_collections;
 
 fn main(){
-    sh::stack_and_heap();
+//     tutorial::combination_lock_game();
+    standard_collections::run();
 }

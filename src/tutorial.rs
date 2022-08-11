@@ -1,8 +1,14 @@
-use std::mem;
+use std::{mem, io::stdin};
 
 const ANOTHER_CONST: u8 = 42; // no fixed address.
 static CONST_2:i32 = 123; // cannot be mutable, as it would be unsafe.
 // To make it a static mut, you will need to enclose the code block with unsafe.
+
+enum State {
+    Locked,
+    Failed,
+    Unlocked
+}
 
 pub fn run(){
     // DATA TYPES
@@ -75,7 +81,105 @@ pub fn run(){
 
         let day = if temp > 20 {"sunny"} else {"cloudy"};
         println!("today is {}", day);
+
+        let mut x = 1;
+        while x < 1000
+        {
+            x *= 2;
+            if x == 64 {continue;} // now goes to the "next" loop
+            println!("x = {}", x);
+        }
+
+        let mut y = 1;
+        loop // while true
+        {
+            y *= 2;
+            println!("y = {}", y);
+            if y == 1<<10 {break;} // 2^10
+        }
+
+        for x in 1..11
+        {
+            println!("x = {}", x);
+        }
+
+        for (pos, y) in (30..41).enumerate()
+        {
+            println!("{}: {}", pos, y);
+        }
+
+        let country_code = 44;
+        let country = match country_code {
+            44 => "UK",
+            46 => "Sweden",
+            7 => "Russia",
+            1..=1000 => "unknown",
+            _ => "invalid"
+        };
+        println!("The country with code {} is {}", country_code, country);
+
+        let x = false;
+        let s = match x{
+            true => "yes",
+            false => "no"
+        };
     }
+
+    // Data Structures
+
+    {
+        struct Point{
+            x: f64,
+            y: f64
+        }
+        struct Line{
+            start: Point,
+            end: Point
+        }
+
+        fn structures(){
+            let p = Point {
+                x: 3.0,
+                y: 4.0
+            };
+            println!("Point p is at ({}, {})", p.x, p.y);
+        }
+    }
+}
+
+pub fn combination_lock_game(){
+    let code = String::from("1234");
+    let mut state = State::Locked;
+    let mut entry = String::new();
+
+    loop {
+        match state {
+            State::Locked => {
+                let mut input = String::new();
+                match stdin().read_line(&mut input) {
+                    Ok(_) => entry.push_str(&input.trim_end()),
+                    Err(_) => continue
+                }
+                if entry == code {
+                    state = State::Unlocked;
+                    continue;
+                }
+                if !code.starts_with(&entry) {
+                    state = State::Failed;
+                }
+            }
+            State::Failed => {
+                println!("FAILED");
+                entry.clear();
+                state = State::Locked;
+                continue;
+            }
+            State::Unlocked => {
+                println!("UNLOCKED");
+                return;
+            }
+        }
+     }
 }
 
 fn scope_and_shadowing()
